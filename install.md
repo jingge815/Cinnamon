@@ -11,7 +11,7 @@
 
 # Clone the Repository:
 - git clone https://github.com/jingge815/Cinnamon.git --branch feature/develop-compiler  
-- cd Cinnamona
+- cd Cinnamon
 
 # Environment Setup:
 - cp env-example .env
