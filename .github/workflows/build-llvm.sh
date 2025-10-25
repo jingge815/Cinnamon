@@ -12,7 +12,9 @@ if [[ ${checkout_and_build_llvm:-0} -eq 1 ]]; then
   reconfigure_llvm=0
   if [ ! -d "$llvm_path" ]; then
     status "Checking out LLVM"
-    git clone https://github.com/oowekyala/llvm-project --depth 1 --branch tilefirst-llvm "$llvm_path"
+    #git clone https://github.com/oowekyala/llvm-project --depth 1 --branch tilefirst-llvm "$llvm_path"
+    git clone https://github.com/jingge815/cinm-tilefirst-llvm.git --branch tilefirst-llvm "$llvm_path" 
+
     reconfigure_llvm=1
   fi
 
@@ -29,6 +31,8 @@ if [[ ${checkout_and_build_llvm:-0} -eq 1 ]]; then
     status "Configuring LLVM (Ninja)"
     cmake -S llvm -B build -G Ninja \
       -Wno-dev \
+      -DCMAKE_C_COMPILER=/usr/bin/gcc \
+      -DCMAKE_CXX_COMPILER=/usr/bin/g++ \
       -DLLVM_ENABLE_PROJECTS="mlir;llvm;clang" \
       -DLLVM_TARGETS_TO_BUILD="host" \
       -DLLVM_ENABLE_ASSERTIONS=ON \
