@@ -4,7 +4,10 @@
 - A somewhat recent Python installation (>=3.7?)
 
 # Make sure you install build dependencies:
-- sudo apt-get install clang ninja-build mold libvulkan-dev ccache
+- sudo add-apt-repository ppa:deadsnakes/ppa
+- sudo apt install software-properties-common
+- sudo apt update
+- sudo apt-get install clang ninja-build mold libvulkan-dev ccache python3.8 libpython3.8-dev
 
 # Clone the Repository:
 - git clone https://github.com/jingge815/Cinnamon.git --branch feature/develop-compiler  
@@ -24,6 +27,8 @@
 - just configure -no-torch-mlir # Downloads LLVM, compiles LLVM, then compiles with LLVM
 
 # Usage:
+- add "source 'the path of your Cinnamon'/third-party/upmem/upmem_env.sh" into compile-benches.sh 
+- for example: source /home/fengjingge/src/downmem/new2-downmem/cinm/Cinnamon/third-party/upmem/upmem_env.sh 
 - chmod +x compile-benches.sh
 - ./compile-benches.sh
 

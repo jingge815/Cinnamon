@@ -1,5 +1,6 @@
 #!/bin/bash
 # source /opt/upmem/upmem-2023.2.0-Linux-x86_64/upmem_env.sh
+source /home/fengjingge/src/downmem/new2-downmem/cinm/Cinnamon/third-party/upmem/upmem_env.sh
 
 just genBench va
 just genBench mlp

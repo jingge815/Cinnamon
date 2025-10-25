@@ -14,7 +14,7 @@ OUT_DIR_DPU=$(OUT_DIR)/dpu
 IR_PREFIX=$(OUT_DIR)/irs/$(BENCH_NAME)
 BUILD_PREFIX=$(OUT_DIR)/out
 
-CLANG_18_BASE=../third-party/llvm/build/bin
+CLANG_21_BASE=../third-party/llvm/build/bin
 CINM_OPT=../build/bin/cinm-opt
 
 $(IR_PREFIX).tiled.mlir: $(BENCH_NAME).mlir
@@ -46,10 +46,10 @@ $(IR_PREFIX).host.ll: $(IR_PREFIX).llvm.mlir
 	../build/bin/cinm-translate --mlir-to-llvmir $< > $@
 
 $(IR_PREFIX).host.opt.ll: $(IR_PREFIX).host.ll
-	$(CLANG_18_BASE)/opt -O3 -S $< > $@
+	$(CLANG_21_BASE)/opt -O3 -S $< > $@
 
 $(IR_PREFIX).host.o: $(IR_PREFIX).host.opt.ll
-	$(CLANG_18_BASE)/llc -O3 $< -o $@ -filetype=obj -relocation-model=pic
+	$(CLANG_21_BASE)/llc -O3 $< -o $@ -filetype=obj -relocation-model=pic
 
 # Compile all DPU kernel executables
 $(BENCH_NAME)-kernel-compile: $(IR_PREFIX).dpu.c
@@ -58,7 +58,7 @@ $(BENCH_NAME)-kernel-compile: $(IR_PREFIX).dpu.c
 # HOST executable
 $(OUT_DIR)/bin/host: $(IR_PREFIX).host.o $(IR_PREFIX).dpu.c
 	@mkdir -p $(@D)
-	clang++ -g apps/$(BENCH_NAME).cpp $(IR_PREFIX).host.o -lUpmemDialectRuntime -fPIE -ldpu -ldpuverbose -L${UPMEM_HOME}/lib -L../build/lib -I${UPMEM_HOME}/include/dpu -o $@
+	$(CLANG_21_BASE)/clang++ -g apps/$(BENCH_NAME).cpp $(IR_PREFIX).host.o -lUpmemDialectRuntime -fPIE -ldpu -ldpuverbose -L${UPMEM_HOME}/lib -L../build/lib -I${UPMEM_HOME}/include/dpu -o $@
 
 # $(BENCH_NAME): $(OUT_DIR)/bin/host $(OUT_DIR)/bin/dpu
 $(BENCH_NAME): $(IR_PREFIX).host.opt.ll $(IR_PREFIX).dpu.c
