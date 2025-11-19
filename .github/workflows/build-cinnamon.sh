@@ -96,6 +96,8 @@ configure() {
     -S .
     -B build
     -G Ninja
+    -DCMAKE_CXX_COMPILER="$llvm_path/build/bin/clang++"
+    -DCMAKE_C_COMPILER="$llvm_path/build/bin/clang"
     -DCMAKE_BUILD_TYPE=RelWithDebInfo
     -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
   )

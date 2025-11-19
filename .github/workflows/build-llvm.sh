@@ -5,6 +5,9 @@ script_dir="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 # shellcheck source=/dev/null
 source "$script_dir/common.sh"
 
+# need set LLVM_BUILD_DIR
+LLVM21_BUILD_DIR="/home/fengjingge/src/downmem/new2-downmem/cinm/Cinnamon/third-party/llvm/build"
+
 # ---- Safe defaults ----
 checkout_and_build_llvm="${checkout_and_build_llvm:-0}"
 reconfigure="${reconfigure:-0}"
@@ -103,10 +106,15 @@ if [[ -n "$clean_reason" ]]; then
   mkdir -p build
 fi
 
+CLANG21_CXX_COMPILER="${LLVM21_BUILD_DIR}/bin/clang++"
+CLANG21_C_COMPILER="${LLVM21_BUILD_DIR}/bin/clang"
+
 # ---- Always run configure (idempotent) ----
 status "Configuring LLVM (Ninja; always run to catch changes)"
 cmake -S llvm -B build -G Ninja \
   -Wno-dev \
+  -DCMAKE_CXX_COMPILER="${CLANG21_CXX_COMPILER}" \
+  -DCMAKE_C_COMPILER="${CLANG21_C_COMPILER}" \
   -DLLVM_ENABLE_PROJECTS="$LLVM_PROJECTS" \
   -DLLVM_TARGETS_TO_BUILD="$LLVM_TARGETS_TO_BUILD" \
   -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD="$LLVM_EXPERIMENTAL_TARGETS" \

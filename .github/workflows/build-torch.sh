@@ -76,6 +76,8 @@ if [[ $checkout_and_build_torch_mlir -eq 1 ]]; then
       $dependency_paths \
       -Wno-dev \
       -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_CXX_COMPILER="$llvm_path/build/bin/clang++"  \
+      -DCMAKE_C_COMPILER="$llvm_path/build/bin/clang" \
       -DTORCH_MLIR_OUT_OF_TREE_BUILD=ON \
       -DTORCH_MLIR_ENABLE_STABLEHLO=OFF \
       -U CMAKE_EXE_LINKER_FLAGS -U CMAKE_SHARED_LINKER_FLAGS \

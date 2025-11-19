@@ -5,15 +5,10 @@ source "$script_dir/common.sh"
 
 if [[ $checkout_upmem -eq 1 ]]; then
   if [ ! -d "$upmem_path" ]; then
-    local_archive="$project_root/resource/upmem-2023.2.0-Linux-x86_64.tar.gz"
-    if [[ -f "$local_archive" ]]; then
-      status "Using bundled UpMem SDK archive"
-      mkdir -p "$upmem_path"
-      tar xfz "$local_archive" -C "$upmem_path" --strip-components=1
-    else
-      error "Bundled UpMem SDK archive not found at $local_archive"
-      exit 1
-    fi
+    status "Downloading UpMem SDK"
+    upmem_archive="third-party/upmem-2025.1.0-Linux-x86_64.tar.gz"
+    mkdir "$upmem_path"
+    tar -xvf "$upmem_archive" -C "$upmem_path" --strip-components=1
   fi
 elif [[ $checkout_upmem -eq 0 ]]; then
   warning "Skipping UpMem checkout"
