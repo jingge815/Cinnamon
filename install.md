@@ -24,7 +24,10 @@ cd Cinnamon
 修改.github/workflows/build-llvm.sh文件中的LLVM21_BUILD_DIR变量，例如：
 LLVM21_BUILD_DIR="/home/fengjingge/src/downmem/new2-downmem/cinm/Cinnamon/third-party/llvm/build"  
 
-## 2.编译处理，大概编译需要多个小时 
+## 2.编译处理
+./build.sh     
+
+具体的处理步骤如下：  
   1) Create Python venv and install deps  
   2) Source the venv  
   3) Build LLVM  
@@ -33,7 +36,7 @@ LLVM21_BUILD_DIR="/home/fengjingge/src/downmem/new2-downmem/cinm/Cinnamon/third-
   6) Build Cinnamon  
   7) Build ALPINE in container (required)  
 
-./build.sh     
+大概编译需要多个小时   
 
 ## 3.安装notebook
 pip install notebook  
@@ -45,17 +48,21 @@ pip3 install torch torchvision torchaudio --index-url https://download.pytorch.o
 export LD_LIBRARY_PATH= cinm中编译安装的llvm路径，例如：     
 export LD_LIBRARY_PATH=/home/fengjingge/tmp/Cinnamon/third-party/llvm/build/lib:$LD_LIBRARY_PATH   
 
-## 6.安装ipykernel
-pip install ipykernel   
-
-## 7.设置Torch-MLIR python环境  
+## 6.设置Torch-MLIR python环境  
+jupyter kernelspec remove torch-mlir-venv -y  
+cd "项目根目录"  
+source .venv/bin/activate  
+pip install ipykernel  
 python -m ipykernel install --user --name=torch-mlir-venv --display-name "Torch-MLIR (venv)"   
 
 # 实验方法 
-## 1.运行notebook,终端会输出一个网址，例如：http://localhost:8888/tree?token=30811c88b090b7758a4f40f69ec465d174bfafb90bef616b  
+## 1.运行notebook
 ./start-notebook.sh  
+终端会输出一个网址   
+例如：http://localhost:8888/tree?token=30811c88b090b7758a4f40f69ec465d174bfafb90bef616b  
 
-## 2.在网络浏览器打开上面的网址。选择 文件夹tutorial->notebooks  
+## 2.打开网址  
+在网络浏览器打开上面的网址。选择 文件夹tutorial->notebooks  
 共计包含7个测试集：  
 00_intro  
 01_vecadd_base  
